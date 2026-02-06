@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For My Favorite Human 🌹</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        color: #333;
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 30px 20px 40px;
+        max-width: 850px;
+        margin: auto;
+    }
+
+    .bouquet {
+        width: 100%;
+        max-width: 420px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        margin-bottom: 20px;
+        animation: float 4s ease-in-out infinite;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #b30059;
+        margin-top: 10px;
+    }
+
+    h2 {
+        font-weight: normal;
+    }
+
+    .rose {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 2.5rem;
+        color: #b30059;
+        
+    }
+	
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+        100% { transform: translateY(0); }
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 25px;
+        background-color: #ff3366;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .hidden {
+        display: none;
+        margin-top: 25px;
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    ul {
+        text-align: left;
+        max-width: 500px;
+        margin: 15px auto;
+    }
+
+    footer {
+        margin-top: 40px;
+        font-size: 0.9rem;
+        color: #555;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- BIG ROSE BOUQUET IMAGE -->
+    
+
+    <div class="rose">🌹 🌹 🌹</div>
+    <h1>Happy Rose Day, My Love</h1>
+    <h2>Official Notice: You are still my favorite person on Earth.</h2>
+
+    <p>
+        This is your annual reminder that out of 8+ billion people,
+        I still choose you… even when you push all my buttons.
+    </p>
+
+    <button onclick="showMessage()">Click here for something important</button>
+
+    <div id="message" class="hidden">
+        <ul>
+			<img class="bouquet" src="https://raw.githubusercontent.com/faruquecs/mdf/c13c206aae4fd1188811e30cc32860034dd56fd5/RedRose.png" alt="Rose Bouquet">
+        </ul>
+            
+		<h1>I love you 🌹❤️😘</h1>
+        <h2>Final Statement 🌹</h2>
+        <p>
+            This rose is symbolic. The real gift is me,
+            loving you today, tomorrow, and always.
+        </p>
+    </div>
+
+    <footer>
+        Made with love, zero coding complaints, and full husband dedication ❤️
+    </footer>
+</div>
+
+<script>
+function showMessage() {
+    document.getElementById("message").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
