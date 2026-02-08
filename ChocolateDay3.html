@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Chocolate Day, My Love</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #ff4d6d, #8e2de2);
+    overflow-x: hidden;
+    color: #fff;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 24px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+}
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1.8); opacity: 0; }
+}
+
+.container {
+    max-width: 850px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    margin-top: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+/* Quiz grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+    justify-items: center;
+}
+
+.choco-option {
+    width: 100%;
+    max-width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.choco-option:hover {
+    transform: scale(1.08);
+}
+
+#result {
+    display: none;
+    margin-top: 20px;
+    font-size: 1.3rem;
+}
+
+#loveGif {
+    width: 200px;
+    margin: 15px auto 0;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Hidden poem initially */
+#poemCard {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    heart.innerHTML = "❤️";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 500);
+</script>
+
+<div class="container">
+    <h1>Happy Chocolate Day, My Love 🍫❤️</h1>
+    <p>You’re sweeter than every chocolate ever made… and definitely more addictive.</p>
+
+    <div class="card">
+        <h2>Quiz Time 😏</h2>
+        <p><strong>Which is my favourite chocolate?</strong></p>
+
+        <div class="options-grid">
+            <img src="https://raw.githubusercontent.com/faruquecs/mdf1/main/FR.png" class="choco-option" onclick="showAnswer()" alt="Ferrero Rocher">
+            <img src="https://raw.githubusercontent.com/faruquecs/mdf1/main/DM.png" class="choco-option" onclick="showAnswer()" alt="Dairy Milk">
+            <img src="https://raw.githubusercontent.com/faruquecs/mdf1/main/Milka.png" class="choco-option" onclick="showAnswer()" alt="Milka">
+            <img src="https://raw.githubusercontent.com/faruquecs/mdf1/main/KK.png" class="choco-option" onclick="showAnswer()" alt="KitKat">
+        </div>
+
+        <div id="result">
+            😂 Nice try, my love… but that’s not the one.  
+            <br><br>
+            The real winner of my heart is:  
+            <br><strong>✨ Kismi Bar ✨</strong><br>
+            <img id="loveGif" src="https://raw.githubusercontent.com/faruquecs/mdf1/main/KismiBar.jpg" alt="Kismi Bar">
+        </div>
+    </div>
+
+    <!-- Hidden Poem Card -->
+    <div class="card" id="poemCard">
+        <h2>A Tiny Poem for You</h2>
+        <p>
+            Roses are red,<br>
+            Chocolate is divine,<br>
+            But nothing on Earth<br>
+            Is sweeter than mine. (Yes, that’s you.)
+        </p>
+    </div>
+</div>
+
+<script>
+function showAnswer() {
+    document.getElementById("result").style.display = "block";
+    document.getElementById("poemCard").style.display = "block"; // reveal poem
+}
+</script>
+
+</body>
+</html>
