@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Teddy Day Magic Hug</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: radial-gradient(circle at top, #ffb6c1, #ff6f91, #ff3f6c);
+        overflow-x: hidden;
+        color: #fff;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 4rem;
+        text-shadow: 0 0 20px rgba(255,255,255,0.8);
+        animation: glow 3s infinite alternate;
+    }
+
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #fff; }
+        to { text-shadow: 0 0 30px #ffe6f2; }
+    }
+
+    /* Floating teddy bears */
+    .heart {
+        position: fixed;
+        bottom: -20px;
+        font-size: 2.5rem;
+        animation: floatUp 6s linear infinite;
+        opacity: 0.9;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-120vh) scale(1.8) rotate(360deg); opacity: 0; }
+    }
+
+    /* Teddy container */
+    #teddyContainer {
+        text-align: center;
+        margin-top: 40px;
+        position: relative;
+    }
+
+    #teddy {
+        width: 300px;
+        cursor: pointer;
+        transition: transform 0.4s ease;
+        filter: drop-shadow(0 0 20px rgba(255,255,255,0.7));
+    }
+
+    #teddy:hover {
+        transform: scale(1.1) rotate(-3deg);
+    }
+
+    /* Hug burst */
+    #hugBurst {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.9), transparent);
+        border-radius: 50%;
+        pointer-events: none;
+        transition: transform 0.4s ease;
+        opacity: 0;
+    }
+
+    /* Hug message */
+    #hugMessage {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 2rem;
+        font-weight: bold;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+        text-shadow: 0 0 10px #fff;
+    }
+
+    /* Surprise section */
+    #surpriseSection {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    #surpriseBtn {
+        background: #fff;
+        color: #ff3f6c;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(255,255,255,0.5);
+        transition: transform 0.3s ease;
+    }
+
+    #surpriseBtn:hover {
+        transform: scale(1.1);
+    }
+
+    #gifDisplay {
+        margin-top: 30px;
+        display: none;
+        animation: fadeIn 0.8s ease;
+    }
+
+    #gifDisplay img {
+        width: 300px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(255,255,255,0.4);
+    }
+
+    #gifText {
+        margin-top: 15px;
+        font-size: 1.6rem;
+        text-shadow: 0 0 10px #fff;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>💗✨ Happy Teddy Day ✨💗</h1>
+
+<!-- Top Section (will hide on Surprise click) -->
+<div id="topSection">
+    <div id="teddyContainer">
+        <div id="hugBurst"></div>
+        <img id="teddy" src="https://raw.githubusercontent.com/faruquecs/mdf1/main/Ks.gif" alt="Teddy Bear">
+    </div>
+
+    <div id="hugMessage">🤗 Your Teddy Just Gave You the Warmest Hug! 🤗</div>
+</div>
+
+<!-- Surprise Me Section -->
+<div id="surpriseSection">
+    <button id="surpriseBtn">🎁 Surprise Me</button>
+
+    <div id="gifDisplay">
+        <img id="gifImage" src="" alt="Surprise GIF">
+        <div id="gifText"></div>
+    </div>
+</div>
+
+<script>
+    const teddy = document.getElementById("teddy");
+    const hugMessage = document.getElementById("hugMessage");
+    const hugBurst = document.getElementById("hugBurst");
+    const topSection = document.getElementById("topSection");
+
+    // Floating teddy generator
+    function createTeddy() {
+        const bear = document.createElement("div");
+        bear.classList.add("heart");
+        bear.innerHTML = "🧸";
+        bear.style.left = Math.random() * 100 + "vw";
+        bear.style.animationDuration = (4 + Math.random() * 4) + "s";
+        document.body.appendChild(bear);
+
+        setTimeout(() => bear.remove(), 7000);
+    }
+    setInterval(createTeddy, 500);
+
+    // Teddy hug animation
+    teddy.addEventListener("click", () => {
+        teddy.style.transform = "scale(1.3) rotate(3deg)";
+        hugBurst.style.transform = "translate(-50%, -50%) scale(1)";
+        hugBurst.style.opacity = 1;
+        hugMessage.style.opacity = 1;
+
+        setTimeout(() => {
+            teddy.style.transform = "scale(1)";
+            hugBurst.style.transform = "translate(-50%, -50%) scale(0)";
+            hugBurst.style.opacity = 0;
+        }, 600);
+
+        setTimeout(() => {
+            hugMessage.style.opacity = 0;
+        }, 2000);
+    });
+
+    /* Surprise GIF Logic */
+    const gifs = [
+        { url: "https://raw.githubusercontent.com/faruquecs/mdf1/main/Happy.gif", text: "You're beary special!" },
+        { url: "https://raw.githubusercontent.com/faruquecs/mdf1/main/Hug.gif", text: "Sending you warm cuddles!" },
+        { url: "https://raw.githubusercontent.com/faruquecs/mdf1/main/sad.gif", text: "A hug a day keeps sadness away!" },
+        { url: "https://raw.githubusercontent.com/faruquecs/mdf1/main/Shy.gif", text: "This teddy loves you the most!" }
+    ];
+
+    const surpriseBtn = document.getElementById("surpriseBtn");
+    const gifDisplay = document.getElementById("gifDisplay");
+    const gifImage = document.getElementById("gifImage");
+    const gifText = document.getElementById("gifText");
+
+    let index = 0;
+
+    surpriseBtn.addEventListener("click", () => {
+        // Hide the top teddy section
+        topSection.style.display = "none";
+
+        // Shuffle GIFs randomly
+        gifs.sort(() => Math.random() - 0.5);
+
+        // Show GIF in sequence
+        const gif = gifs[index];
+        gifImage.src = gif.url;
+        gifText.textContent = gif.text;
+
+        gifDisplay.style.display = "block";
+
+        index = (index + 1) % gifs.length;
+    });
+</script>
+
+</body>
+</html>
