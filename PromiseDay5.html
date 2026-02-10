@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Promise Day ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #d2b48c; /* Light brown */
+    color: white;
+    overflow: hidden;
+}
+
+.container {
+    margin: 60px auto;
+    max-width: 700px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.15);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+h1 { font-size: 2.5rem; }
+
+button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background: white;
+    color: #8b4513;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover { transform: scale(1.1); }
+
+/* FLASH CARD */
+.flash-card {
+    margin: 25px auto;
+    padding: 35px 25px;
+    width: 90%;
+    min-height: 160px;
+    border-radius: 22px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: white;
+    display: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    animation: fancyIn 0.7s ease forwards;
+}
+
+/* Fancy word animation */
+@keyframes fancyIn {
+    0% { opacity: 0; transform: scale(0.6) translateY(40px); }
+    60% { opacity: 1; transform: scale(1.05) translateY(-5px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 🌊 Watery flowing border animation */
+.flash-card::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 25px;
+    padding: 4px;
+    background: conic-gradient(
+        from 0deg,
+        rgba(255,255,255,0.9),
+        rgba(255,255,255,0.2),
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.4),
+        rgba(255,255,255,0.9)
+    );
+    animation: waterFlow 4s linear infinite reverse;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+}
+
+@keyframes waterFlow {
+    0% { transform: rotate(0deg); filter: blur(1px); }
+    100% { transform: rotate(-360deg); filter: blur(1px); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>Happy Promise Day ❤️</h1>
+        <p>I made some promises. Open them one by one.</p>
+
+        <button onclick="showPromise()">Open a Promise 💌</button>
+
+        <div id="flashCard" class="flash-card"></div>
+
+        <button id="finalBtn" style="display:none;" onclick="sealPromise()">Seal the Promise 🤝</button>
+    </div>
+</div>
+
+<script>
+let index = 0;
+
+// Promises WITH emoticons
+const promises = [
+    "I promise to annoy you forever… lovingly 😈❤️",
+    "I promise to stand by you on good days and bad days 🤗💞",
+    "I promise to share my fries… even the crispy ones 🍟😤❤️",
+    "I promise to always be your safe place 🏡💗",
+    "I promise to love you more every single day 🌅💖"
+];
+
+// Flash‑card colors
+const colors = [
+    "#c0392b",
+    "#d35400",
+    "#16a085",
+    "#2980b9",
+    "#8e44ad"
+];
+
+function showPromise() {
+    const card = document.getElementById("flashCard");
+
+    if (index < promises.length) {
+        card.style.display = "none";
+        void card.offsetWidth; // reset animation
+
+        card.textContent = promises[index];
+        card.style.background = colors[index % colors.length];
+
+        card.style.display = "block";
+
+        index++;
+
+        if (index === promises.length) {
+            document.getElementById("finalBtn").style.display = "inline-block";
+        }
+    }
+}
+
+function sealPromise() {
+    const card = document.getElementById("flashCard");
+    card.style.background = "#ffffffaa";
+    card.style.color = "#8b4513";
+    card.textContent = "Promise Sealed Forever 🤝❤️✨";
+}
+</script>
+
+</body>
+</html>
