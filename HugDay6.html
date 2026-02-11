@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hug Console – Galaxy Warp Hug 🤗🌌</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+    --bg: #020617;
+    --panel: #020617;
+    --accent: #f97373;
+    --accent-soft: #fecaca;
+    --text-main: #f9fafb;
+    --text-soft: #9ca3af;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow: hidden;
+    background: #000;
+}
+
+/* ---------- BACKGROUND LAYERS ---------- */
+
+/* Galaxy layer */
+.galaxy {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(244,114,182,0.35), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(56,189,248,0.35), transparent 55%),
+        radial-gradient(circle at 50% 80%, rgba(129,140,248,0.4), transparent 60%),
+        radial-gradient(circle at 50% 50%, #020617 0, #020617 40%, #000 100%);
+    overflow: hidden;
+    z-index: 10;
+    transition: transform 2.2s ease-out, opacity 2.2s ease-out;
+}
+
+/* Tiny stars */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(248,250,252,0.9);
+    opacity: 0.8;
+}
+
+/* Warp-speed streaks */
+.streak {
+    position: absolute;
+    width: 2px;
+    height: 40px;
+    background: rgba(255,255,255,0.8);
+    opacity: 0;
+    transform: translateY(0) scaleY(0.2);
+    animation: streakMove 1.2s linear infinite;
+}
+@keyframes streakMove {
+    0% { opacity: 0; transform: translateY(0) scaleY(0.2); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-140vh) scaleY(1); }
+}
+
+/* Earth scene */
+.earth-scene {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.3);
+    transition: transform 2.2s ease-out, opacity 2.2s ease-out;
+    z-index: 11;
+}
+
+/* Stylized rotating Earth */
+.earth {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 20%, #fef9c3, transparent 55%),
+        radial-gradient(circle at 40% 60%, #22c55e 0, #22c55e 22%, transparent 40%),
+        radial-gradient(circle at 70% 40%, #16a34a 0, #16a34a 18%, transparent 40%),
+        radial-gradient(circle at 30% 80%, #15803d 0, #15803d 20%, transparent 45%),
+        radial-gradient(circle at 50% 50%, #0ea5e9 0, #0369a1 60%, #020617 100%);
+    box-shadow:
+        0 0 40px rgba(56,189,248,0.9),
+        0 0 120px rgba(56,189,248,0.5);
+    position: relative;
+    animation: rotateEarth 18s linear infinite;
+}
+
+@keyframes rotateEarth {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.earth::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 2px solid rgba(191,219,254,0.7);
+    box-shadow: 0 0 40px rgba(191,219,254,0.9);
+}
+
+.earth-message {
+    position: absolute;
+    top: 110%;
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+    color: #e5e7eb;
+    text-shadow: 0 0 10px rgba(15,23,42,0.9);
+}
+
+/* Zoom state */
+.zooming .galaxy {
+    transform: scale(2.4);
+    opacity: 0;
+}
+.zooming .earth-scene {
+    opacity: 1;
+    transform: scale(1);
+}
+.zooming .console {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+
+/* ---------- CONSOLE ---------- */
+
+.console {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    background: rgba(15,23,42,0.96);
+    border-radius: 26px;
+    padding: 26px 22px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+    border: 1px solid rgba(148,163,184,0.35);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    position: relative;
+    z-index: 20;
+}
+
+@media (max-width: 780px) {
+    .console {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Left side */
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.title-block h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+.title-block p {
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    background: rgba(248, 250, 252, 0.06);
+    border: 1px solid rgba(148,163,184,0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Mood buttons */
+.moods {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.mood-btn {
+    flex: 1;
+    padding: 9px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148,163,184,0.5);
+    background: rgba(15,23,42,0.9);
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: 0.2s;
+}
+.mood-btn.active {
+    background: radial-gradient(circle at top, #f97373, #fb7185);
+    color: #0b1120;
+}
+
+/* Slider */
+.slider-block { margin: 18px 0 10px; }
+.slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+}
+.slider-label strong { color: var(--accent-soft); }
+
+input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: linear-gradient(90deg, #4b5563, #f97373);
+    border-radius: 999px;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #f97373;
+    margin-top: -6px;
+}
+
+/* Message box */
+.message-box {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(15,23,42,0.95);
+    border: 1px solid rgba(148,163,184,0.5);
+}
+
+/* Right side – Orb */
+.orb-panel {
+    background: rgba(2,6,23,0.95);
+    border-radius: 22px;
+    padding: 20px;
+    border: 1px solid rgba(148,163,184,0.4);
+}
+
+.hug-orb {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 20%, #fef3c7, #f97373 55%, #111827 100%);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    position: relative;
+}
+
+/* Arms */
+.hug-orb::before,
+.hug-orb::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 70px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, #fed7aa, #f97373);
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.25s ease-out;
+}
+.hug-orb::before { left: -80px; }
+.hug-orb::after { right: -80px; }
+
+.hug-orb.tight-1::before { transform: translateY(-50%) translateX(10px); }
+.hug-orb.tight-1::after  { transform: translateY(-50%) translateX(-10px); }
+.hug-orb.tight-2::before { transform: translateY(-50%) translateX(26px); }
+.hug-orb.tight-2::after  { transform: translateY(-50%) translateX(-26px); }
+.hug-orb.tight-3::before { transform: translateY(-50%) translateX(40px); }
+.hug-orb.tight-3::after  { transform: translateY(-50%) translateX(-40px); }
+
+/* Hug button */
+.hug-btn {
+    margin-top: 14px;
+    width: 100%;
+    padding: 11px 0;
+    border-radius: 999px;
+    background: rgba(15,23,42,0.95);
+    border: 1px solid rgba(248,250,252,0.2);
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Return button */
+.return-btn {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 28px;
+    border-radius: 999px;
+    background: #fff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 20;
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Console -->
+<div class="console" id="console">
+    <div>
+        <div class="header">
+            <div class="title-block">
+                <h1>Hug Console 🤗</h1>
+                <p>Dial in the perfect hug, then launch it across the galaxy.</p>
+            </div>
+            <div class="badge">
+                <span>💞</span>
+                <span>Hug Day • Live</span>
+            </div>
+        </div>
+
+        <div class="moods">
+            <button class="mood-btn active" data-mood="comfort">🫂 Comfort</button>
+            <button class="mood-btn" data-mood="celebrate">🎉 Celebrate</button>
+            <button class="mood-btn" data-mood="sorry">💌 I'm Sorry</button>
+        </div>
+
+        <div class="slider-block">
+            <div class="slider-label">
+                <span>Hug tightness</span>
+                <strong id="tightLabel">Soft</strong>
+            </div>
+            <input id="tightSlider" type="range" min="1" max="3" value="1">
+        </div>
+
+        <div class="message-box">
+            <div class="message-title">Hug message</div>
+            <div id="messageText">
+                A soft, steady hug that says, “You’re not alone in this. I’m right here.” 🫂
+            </div>
+        </div>
+    </div>
+
+    <div class="orb-panel">
+        <div class="orb-label">Hug visualizer</div>
+        <div class="hug-orb tight-1" id="hugOrb">🤗</div>
+        <button class="hug-btn" onclick="sendHug()">🚀 Send this hug</button>
+    </div>
+</div>
+
+<!-- Galaxy -->
+<div class="galaxy" id="galaxy"></div>
+
+<!-- Earth -->
+<div class="earth-scene" id="earthScene">
+    <div class="earth">
+        <div class="earth-message">
+            Your hug just crossed the galaxy<br>and wrapped around Earth 🤗🌍
+        </div>
+    </div>
+</div>
+
+<!-- Return Button -->
+<button class="return-btn" id="returnBtn" onclick="returnToConsole()">⬅ Return to Console</button>
+
+<!-- Whoosh Sound -->
+<audio id="whooshSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f3e02dcf0.mp3?filename=woosh-1-102441.mp3"></audio>
+
+<script>
+/* Create stars */
+const galaxy = document.getElementById("galaxy");
+for (let i = 0; i < 140; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.top = Math.random() * 100 + "vh";
+    galaxy.appendChild(s);
+}
+
+/* Create warp streaks */
+for (let i = 0; i < 60; i++) {
+    const st = document.createElement("div");
+    st.className = "streak";
+    st.style.left = Math.random() * 100 + "vw";
+    st.style.animationDelay = Math.random() * 1.2 + "s";
+    galaxy.appendChild(st);
+}
+
+/* Hug logic */
+const moodButtons = document.querySelectorAll(".mood-btn");
+const messageText = document.getElementById("messageText");
+const tightSlider = document.getElementById("tightSlider");
+const tightLabel = document.getElementById("tightLabel");
+const hugOrb = document.getElementById("hugOrb");
+const whoosh = document.getElementById("whooshSound");
+const returnBtn = document.getElementById("returnBtn");
+
+let currentMood = "comfort";
+
+const messages = {
+    comfort: {
+        1: "A soft, steady hug that says, “You’re not alone in this. I’m right here.” 🫂",
+        2: "A closer hug that quietly holds all the things you don’t know how to say. 🤍",
+        3: "A tight, grounding hug that whispers, “Breathe. I’ve got you.” 🤗"
+    },
+    celebrate: {
+        1: "A bouncy hug that says, “I’m so happy for you!” 🎉🤗",
+        2: "An excited squeeze that laughs, “You did it, and I’m proud of you!” 🌟",
+        3: "A jumpy, spin‑you‑around hug that yells, “You’re amazing!” 🥳🤗"
+    },
+    sorry: {
+        1: "A gentle hug that says, “I’m sorry… and I really care.” 💌🤗",
+        2: "A longer hug that admits, “I hurt you, and I want to make it right.” 💔",
+        3: "A tight, lingering hug that promises, “I’ll do better, and I mean it.” 🤍🤗"
+    }
+};
+
+function updateMessage() {
+    const level = tightSlider.value;
+    messageText.textContent = messages[currentMood][level];
+    tightLabel.textContent = ["Soft", "Close", "Tight"][level - 1];
+
+    hugOrb.className = "hug-orb tight-" + level;
+}
+
+moodButtons.forEach(btn => {
+    btn.onclick = () => {
+        moodButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentMood = btn.dataset.mood;
+        updateMessage();
+    };
+});
+
+tightSlider.oninput = updateMessage;
+
+/* Send Hug */
+function sendHug() {
+    whoosh.play();
+    document.body.classList.add("zooming");
+    setTimeout(() => returnBtn.style.display = "block", 2500);
+}
+
+/* Return */
+function returnToConsole() {
+    document.body.classList.remove("zooming");
+    returnBtn.style.display = "none";
+}
+</script>
+
+</body>
+</html>
